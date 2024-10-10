@@ -1,6 +1,5 @@
 package Lab07.servlet;
 
-import cs3220.model.Event;
 import cs3220.model.User;
 
 import java.io.IOException;
@@ -35,13 +34,14 @@ public class Login extends HttpServlet {
 		getServletContext().setAttribute("users", users);
 	}
 
-	private boolean checkMatch(String username, char[] password) {
+	private User checkMatch(String username, char[] password) {
 		List<User> users = (List<User>) getServletContext().getAttribute("users");
 		for (User user : users)
 			if ((user.getName() == username) && user.getPassword() == password) {
-				return true;
+
+				return user;
 			}
-		return false;
+		return null;
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -62,6 +62,7 @@ public class Login extends HttpServlet {
 		out.println("<p style='margin-left: 40px'>" + "<input name='login' type='submit' value='login'>" + "    </p>");
 		for (User user : users) {
 			out.println(user.getName());
+			out.println(user.getPassword());
 		}
 		out.println("");
 
@@ -84,16 +85,19 @@ public class Login extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Get the session object
-		HttpSession session = request.getSession();
 
 		String username = request.getParameter("username");
 		char[] password = (request.getParameter("password")).toCharArray();
-		;
+		
+		// Get the session object
+		HttpSession session = request.getSession();
+		
+		User usr = new User();
 		// Check if username & password match user list
-		if (checkMatch(username, password)) {
+		if ((checkMatch(username, password).getClass()) == (usr.getClass())) {
+			User currentUser = checkMatch(username, password);
 			// Set an attribute in the session
-			session.setAttribute("username", username);
+			session.setAttribute("currentUser", currentUser);
 			// send user back to ListEvents.java
 			response.sendRedirect("Members");
 		} // close if

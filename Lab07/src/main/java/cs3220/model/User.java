@@ -17,6 +17,14 @@ public class User {
 		this.password = password;
 
 	}
+	
+	public User() {
+		this.id = 0;
+		this.name = "default";
+		this.username = "default";
+		this.password = new char[0];
+
+	}
 
 	public int getId() {
 		return id;
