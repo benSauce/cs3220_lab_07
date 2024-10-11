@@ -4,7 +4,6 @@ import cs3220.model.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(urlPatterns = "/Login", loadOnStartup = 1)
+//@WebServlet(urlPatterns = "/Login", loadOnStartup = 1)
+@WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -89,13 +89,14 @@ public class Login extends HttpServlet {
 
 		String username = request.getParameter("username");
 		char[] charPass = (request.getParameter("password")).toCharArray();
-		
+
 		// Get the session object
 		HttpSession session = request.getSession();
-		
+
 		User usr = new User();
 		// Check if username & password match user list
-		if (checkMatch(username, charPass) != null && ((checkMatch(username, charPass).getClass()) == (usr.getClass()))) {
+		if (checkMatch(username, charPass) != null
+				&& ((checkMatch(username, charPass).getClass()) == (usr.getClass()))) {
 			User currentUser = checkMatch(username, charPass);
 			// Set an attribute in the session
 			session.setAttribute("currentUser", currentUser);
