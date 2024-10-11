@@ -35,6 +35,7 @@ public class Login extends HttpServlet {
 	}
 
 	private User checkMatch(String username, char[] password) {
+		@SuppressWarnings("unchecked")
 		List<User> users = (List<User>) getServletContext().getAttribute("users");
 		for (User user : users)
 			if ((user.getName()).equals(username) && Arrays.equals(user.getPassword(), password)) {
@@ -47,6 +48,7 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// get users List
+		@SuppressWarnings("unchecked")
 		List<User> users = (List<User>) getServletContext().getAttribute("users");
 
 		// Print out
@@ -65,16 +67,6 @@ public class Login extends HttpServlet {
 			out.println(user.getPassword());
 		}
 		out.println("");
-
-		// begin table body
-
-		// forEach list element
-		/*
-		 * for (User user : users) { out.println("<tr>"); out.println("<td>" +
-		 * event.getName() + "</td>"); out.println("<td>" +
-		 * formatter.format(event.getEventDate()) + "</td>"); out.println("<td>" +
-		 * event.getCreatedBy() + "</td>"); out.println("</tr>"); }
-		 */
 
 		// close form
 		out.println("</form>");
