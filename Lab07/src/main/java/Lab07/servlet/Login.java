@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -37,7 +38,7 @@ public class Login extends HttpServlet {
 	private User checkMatch(String username, char[] password) {
 		List<User> users = (List<User>) getServletContext().getAttribute("users");
 		for (User user : users)
-			if ((user.getName() == username) && user.getPassword() == password) {
+			if ((user.getName()).equals(username) && Arrays.equals(user.getPassword(), password)) {
 
 				return user;
 			}
@@ -87,15 +88,15 @@ public class Login extends HttpServlet {
 			throws ServletException, IOException {
 
 		String username = request.getParameter("username");
-		char[] password = (request.getParameter("password")).toCharArray();
+		char[] charPass = (request.getParameter("password")).toCharArray();
 		
 		// Get the session object
 		HttpSession session = request.getSession();
 		
 		User usr = new User();
 		// Check if username & password match user list
-		if ((checkMatch(username, password).getClass()) == (usr.getClass())) {
-			User currentUser = checkMatch(username, password);
+		if (checkMatch(username, charPass) != null && ((checkMatch(username, charPass).getClass()) == (usr.getClass()))) {
+			User currentUser = checkMatch(username, charPass);
 			// Set an attribute in the session
 			session.setAttribute("currentUser", currentUser);
 			// send user back to ListEvents.java
